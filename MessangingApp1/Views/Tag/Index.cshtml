@@ -8,14 +8,14 @@
 <table class="table table-striped table-bordered table-hover" style="max-width: 500px;">
     <tr>
         <td colspan="3">
-            
+
             @using (Html.BeginForm("CreateUpdate", "Tag", FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
                 <div class="form-group">
                     @Html.LabelFor(m => m.EditableItem.TagName)
                     @Html.TextBoxFor(m => m.EditableItem.TagName, new { @class = "form-control", @placeholder = "Enter tag" })
-                   @* @Html.ValidationMessageFor(m => m.Description, "", new { @class = "badge badge-danger" })*@
+                    @* @Html.ValidationMessageFor(m => m.Description, "", new { @class = "badge badge-danger" })*@
                 </div>
 
                 <div class="form-group">
@@ -40,4 +40,5 @@
             </tr>
         }
     }
-    </table>
+</table>
+<button>@Html.ActionLink("Next", "Index", "InviteUser", null, null)</button>

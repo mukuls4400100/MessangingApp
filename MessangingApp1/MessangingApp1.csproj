@@ -255,6 +255,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ChannelController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InviteUserController.cs" />
     <Compile Include="Controllers\TagController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -271,6 +272,7 @@
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\InviteListViewModel.cs" />
     <Compile Include="ViewModels\TagListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -312,6 +314,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Channel\Index.cshtml" />
     <Content Include="Views\Tag\Index.cshtml" />
+    <Content Include="Views\InviteUser\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

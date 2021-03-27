@@ -1,0 +1,43 @@
+﻿@model MessangingApp1.ViewModels.InviteListViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h1>@ViewBag.msg</h1>
+<table class="table table-striped table-bordered table-hover" style="max-width: 500px;">
+    <tr>
+        <td colspan="3">
+            
+            @using (Html.BeginForm("CreateUpdate", "InviteUser", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    @Html.LabelFor(m => m.instance.InviteUserName)
+                    @Html.TextBoxFor(m => m.instance.InviteUserName, new { @class = "form-control", @placeholder = "Enter UserName" })
+                   @* @Html.ValidationMessageFor(m => m.Description, "", new { @class = "badge badge-danger" })*@
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" name="submit" class="btn btn-primary" value="Add User" />
+                </div>
+            }
+        </td>
+    </tr>
+    @if (Model != null)
+    {
+        foreach (var item in Model.InviteUsers)
+        {
+            <tr>
+                <td>
+                    <a href="/InviteUser/Edit/@item.InviteId">
+                        @item.InviteUserName
+                    </a>
+                </td>
+                <td class="text-center">
+                    <a href="/InviteUser/Delete/@item.InviteId" onclick="return confirm('Are you sure?');" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    }
+    </table>

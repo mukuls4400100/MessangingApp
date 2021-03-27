@@ -31,7 +31,10 @@ namespace MessangingApp1.Controllers
                 var r= db.channels.Where(item=>item.ChannelName == c.ChannelName).ToList();
                 Session["channelid"] = r.First().ChannelId;
                 TagListViewModel t = new TagListViewModel();
+                InviteListViewModel t2 = new InviteListViewModel();
                 t.TagItems.Clear();
+                t2.InviteUsers.Clear();
+
                 ViewBag.message = "Channel is Created";
             }
             else
