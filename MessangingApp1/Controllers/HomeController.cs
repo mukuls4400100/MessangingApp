@@ -7,7 +7,6 @@ using System.Web.Mvc;
 
 namespace MessangingApp1.Controllers
 {
-    
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -27,14 +26,14 @@ namespace MessangingApp1.Controllers
             DataContext db = new DataContext();
             if (ModelState.IsValid)
             {
-                 //validate the email and password
+                //validate the email and password
                 var res = db.users.Where(item => item.Username == usr.Username && item.Password == usr.Password).ToList();
 
                 if (res.Count() != 0)
                 {
                     Session["userid"] = res[0].UserId;
                     Session["name"] = res[0].Username;
-                    
+
                     return RedirectToAction("Index");
                 }
                 else
@@ -65,8 +64,8 @@ namespace MessangingApp1.Controllers
                     ViewBag.ErrorMessage = "User Already Exist!";
                     return View();
                 }
-                res = db.users.Where(item => item.Email== usr.Email);
-                if(res.Count() != 0)
+                res = db.users.Where(item => item.Email == usr.Email);
+                if (res.Count() != 0)
                 {
                     ViewBag.ErrorMessage = "Email Already Exist!";
                     return View();
@@ -75,7 +74,7 @@ namespace MessangingApp1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Login");
             }
-            
+
             return View();
         }
 
@@ -85,13 +84,14 @@ namespace MessangingApp1.Controllers
             return RedirectToAction("Login");
         }
 
-        public ActionResult Channel ()
+        public ActionResult Channel()
         {
             if (Session["userid"] != null)
             {
                 DataContext db = new DataContext();
                 var res = db.channels.Where(item => item.UserId == Convert.ToInt32(Session["userid"])).ToList();
-                if(res.Count() == 0)
+
+                if (res.Count() == 0)
                 {
                     ViewBag.message = "No Channel Exist";
                     return View();
@@ -100,13 +100,26 @@ namespace MessangingApp1.Controllers
                 {
                     return View(res);
                 }
-                
+
             }
             else
             {
                 return RedirectToAction("Login");
             }
-            
+
+        }
+
+        public ActionResult InviteChannels()
+        {
+            DataContext db = new DataContext();
+            var list = db.inviteUsers.Where(item => item.InviteUserName == Convert.ToString(Session["name"])).ToList();
+            List<Channel> channellist = new List<Channel>();
+            foreach (var i in list)
+            {
+                channellist.Add(db.channels.Where(item => item.ChannelId == i.ChannelId).First());
+            }
+
+            return View(channellist);
         }
     }
 }

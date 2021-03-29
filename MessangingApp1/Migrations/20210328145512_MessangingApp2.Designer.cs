@@ -4,14 +4,16 @@ using MessangingApp1.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MessangingApp1.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210328145512_MessangingApp2")]
+    partial class MessangingApp2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,33 +85,6 @@ namespace MessangingApp1.Migrations
                     b.HasKey("PostId");
 
                     b.ToTable("posts");
-                });
-
-            modelBuilder.Entity("MessangingApp1.Models.PostReply", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ReplyContent")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("userId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("userName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("replies");
                 });
 
             modelBuilder.Entity("MessangingApp1.Models.Tag", b =>

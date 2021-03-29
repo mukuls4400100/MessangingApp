@@ -5,28 +5,39 @@
 <h1>@ViewBag.message</h1>
 @if (Model != null)
 {
-    <table>
-        <tr>
+    <table class="table table-bordered">
+        <tr style="font-size:150%;">
             <th>
                 Channel Name
             </th>
             <th>
                 Channel Description
             </th>
+            <th>
+                View  Posts
+            </th>
+            <th>
+                Post Message
+            </th>
         </tr>
-        
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @item.ChannelName
-                    </td>
-                    <td>
-                        @item.Description
-                    </td>
-                </tr>
-            }
-        
+        @foreach (var item in Model)
+        {
+    <tr>
+        <td style="font-size:150%;color:red;">
+            @item.ChannelName
+        </td>
+        <td style="font-size:150%;color:green;">
+            @item.Description
+        </td>
+        <td>
+            @Html.ActionLink("View Posts", "ViewPosts", "Post", new { id = item.ChannelId }, new { @class = "btn btn-success btn-block" })
+        </td>
+        <td>
+            @Html.ActionLink("Post Message", "Index", "Post", new { id = item.ChannelId }, new { @class = "btn btn-danger btn-block" })
+        </td>
+    </tr>
+        }
+
     </table>
 }
-    <button>@Html.ActionLink("Create Channel", "Index", "Channel", null, null)</button>
+@Html.ActionLink("Create Channel", "Index", "Channel", null, new { @class = "btn btn-primary btn-block" })

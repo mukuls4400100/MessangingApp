@@ -6,6 +6,9 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -27,10 +30,12 @@
                     }
                     else if (Session["userid"] != null)
                     {
+                        <li>@Html.ActionLink("Channels", "InviteChannels", "Home")</li>
                         <li style="color:white; margin-top:15px;">Hi, @Session["name"]</li>
                         <li>@Html.ActionLink("Logout", "Logout", "Home")</li>
+
                     }
-                    <li>@Html.ActionLink("Channels", "Channel", "Home")</li>
+                    <li>@Html.ActionLink("My Channels", "Channel", "Home")</li>
                 </ul>
             </div>
         </div>

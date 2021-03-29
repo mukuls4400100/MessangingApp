@@ -1,0 +1,52 @@
+﻿@model MessangingApp1.ViewModels.PostIndexViewModel
+
+@{
+    ViewBag.Title = "DisplayPostReply";
+}
+
+<h2>@Model.Title</h2>
+<h2>@Model.Content</h2>
+<h2>@Model.UserName</h2>
+<h2>@Model.CreatedAt</h2>
+
+
+<div>
+    @using (Html.BeginForm("CreateMessage", "Post", FormMethod.Post))
+    {
+        <h1 class="form-group">
+            @Html.TextBoxFor(m => m.Content, "", new { @class = "form-control", @placeholder = "Enter Reply" })
+        </h1>
+
+        <h1 class="form-group">
+            <input type="submit" class="btn btn-primary" value="Post Reply" />
+        </h1>
+    }
+</div>
+
+
+@if (Model.Replies.Count() != 0)
+{
+    foreach (var reply in Model.Replies)
+    {
+        <div class="row replyContent">
+            <div class="col-md-3 replyAuthorContainer">
+                @reply.userName
+                <span>@reply.DateCreated</span>
+            </div>
+            <div class="col-md-9 replyContentContainer">
+                <div class="postContent">
+                    @reply.ReplyContent
+                </div>
+
+            </div>
+        </div>
+    }
+}
+else
+{
+    <h2>No replies!!!!!</h2>
+}
+
+
+
+

@@ -8,14 +8,14 @@
 <table class="table table-striped table-bordered table-hover" style="max-width: 500px;">
     <tr>
         <td colspan="3">
-            
+
             @using (Html.BeginForm("CreateUpdate", "InviteUser", FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
                 <div class="form-group">
                     @Html.LabelFor(m => m.instance.InviteUserName)
                     @Html.TextBoxFor(m => m.instance.InviteUserName, new { @class = "form-control", @placeholder = "Enter UserName" })
-                   @* @Html.ValidationMessageFor(m => m.Description, "", new { @class = "badge badge-danger" })*@
+                    @* @Html.ValidationMessageFor(m => m.Description, "", new { @class = "badge badge-danger" })*@
                 </div>
 
                 <div class="form-group">
@@ -40,4 +40,4 @@
             </tr>
         }
     }
-    </table>
+</table>

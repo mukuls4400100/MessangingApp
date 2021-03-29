@@ -18,7 +18,9 @@ namespace MessangingApp1.Models
         public DbSet<Tag> tags { get; set; }
         public DbSet<InviteUser> inviteUsers { get; set; }
         public DbSet<Channel> channels { get; set; }
-        
+        public DbSet<Post> posts { get; set; }
+        public DbSet<PostReply> replies { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Server=LAPTOP-9GTIN7FV\SQLEXPRESS;Database=MessangingAppDatabase;Trusted_Connection=True;");

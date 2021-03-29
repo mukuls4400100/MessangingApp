@@ -1,10 +1,10 @@
 ﻿using MessangingApp1.Models;
+using MessangingApp1.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MessangingApp1.ViewModels;
 
 namespace MessangingApp1.Controllers
 {
@@ -22,13 +22,13 @@ namespace MessangingApp1.Controllers
         {
             DataContext db = new DataContext();
             var res = db.channels.Where(item => item.ChannelName == c.ChannelName).ToList();
-            if(res.Count() == 0)
+            if (res.Count() == 0)
             {
                 c.UserId = Convert.ToInt32(Session["userid"]);
                 db.channels.Add(c);
                 db.SaveChanges();
 
-                var r= db.channels.Where(item=>item.ChannelName == c.ChannelName).ToList();
+                var r = db.channels.Where(item => item.ChannelName == c.ChannelName).ToList();
                 Session["channelid"] = r.First().ChannelId;
                 TagListViewModel t = new TagListViewModel();
                 InviteListViewModel t2 = new InviteListViewModel();
@@ -41,7 +41,7 @@ namespace MessangingApp1.Controllers
             {
                 ViewBag.message = "Channel already Exist";
             }
-            
+
             return View();
         }
     }

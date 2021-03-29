@@ -13,14 +13,14 @@ namespace MessangingApp1.Controllers
         // GET: Tag
         public ActionResult Index()
         {
-           
+
             DataContext db = new DataContext();
             List<Tag> res = db.tags.Where(item => item.ChannelId == Convert.ToInt32(Session["channelid"])).ToList();
 
             TagListViewModel viewModel = new TagListViewModel();
             viewModel.TagItems.Clear();
             viewModel.TagItems = res;
-            
+
             return View(viewModel);
         }
 
@@ -40,21 +40,21 @@ namespace MessangingApp1.Controllers
                 db.tags.Remove(res.First());
                 db.SaveChanges();
             }
-                
+
 
             return RedirectToAction("Index");
-            
+
         }
 
         [HttpPost]
         public ActionResult CreateUpdate(TagListViewModel viewModel)
         {
-                DataContext db = new DataContext();
-            
-                viewModel.EditableItem.ChannelId = Convert.ToInt32(Session["channelid"]);
-                db.tags.Add(viewModel.EditableItem);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+            DataContext db = new DataContext();
+
+            viewModel.EditableItem.ChannelId = Convert.ToInt32(Session["channelid"]);
+            db.tags.Add(viewModel.EditableItem);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
     }
