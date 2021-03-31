@@ -24,12 +24,12 @@ namespace MessangingApp1.Controllers
             return View(viewModel);
         }
 
-        public ActionResult Edit(int id)
+       /* public ActionResult Edit(int id)
         {
             InviteListViewModel viewModel = new InviteListViewModel();
             viewModel.instance = viewModel.InviteUsers.FirstOrDefault(x => x.InviteId == id);
             return View(viewModel);
-        }
+        }*/
 
         public ActionResult Delete(int id)
         {

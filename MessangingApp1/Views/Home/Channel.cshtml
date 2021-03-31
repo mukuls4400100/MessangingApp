@@ -14,13 +14,16 @@
                 Channel Description
             </th>
             <th>
+                Number of Posts
+            </th>
+            <th>
                 View  Posts
             </th>
             <th>
                 Post Message
             </th>
         </tr>
-        @foreach (var item in Model)
+        @foreach (var item in Model.OrderByDescending(m=> m.CountPosts))
         {
     <tr>
         <td style="font-size:150%;color:red;">
@@ -28,6 +31,9 @@
         </td>
         <td style="font-size:150%;color:green;">
             @item.Description
+        </td>
+        <td style="font-size:150%;color:green;">
+            @item.CountPosts
         </td>
         <td>
             @Html.ActionLink("View Posts", "ViewPosts", "Post", new { id = item.ChannelId }, new { @class = "btn btn-success btn-block" })

@@ -1,8 +1,56 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
 
-<h2>Welcome to Messanging App
-    </h2>
+<h1>Index</h1>
 
+@*@model  MessangingApp1.ViewModels.TrendingListViewModel
+
+
+
+    <h2>Index</h2>
+
+    <table>
+        @foreach (var item in Model.trendingChannels)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+
+                <td>
+                    @item.Count
+                </td>
+            </tr>
+        }
+    </table>
+    <table>
+        @foreach (var item in Model.trendingRegions)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+
+                <td>
+                    @item.Count
+                </td>
+            </tr>
+        }
+    </table>
+    <table>
+        @foreach (var item in Model.trendingUser)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+
+                <td>
+                    @item.Count
+                </td>
+            </tr>
+        }
+    </table>
+
+*@

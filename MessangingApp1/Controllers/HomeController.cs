@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MessangingApp1.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace MessangingApp1.Controllers
 {
@@ -11,6 +13,11 @@ namespace MessangingApp1.Controllers
     {
         public ActionResult Index()
         {
+            /*DataContext db = new DataContext();
+            TrendingListViewModel tr = new TrendingListViewModel();
+            tr.trendingRegions = db.users.FromSqlRaw("Select Region, Count(UserId) as 'Count Of User' from users group by Region orderBy Count(UserId) desc").ToList();
+           */
+            /*var regions = db.users.GroupBy(item=> item.Region).OrderByDescending()*/
             return View();
         }
 
@@ -24,8 +31,7 @@ namespace MessangingApp1.Controllers
         public ActionResult Login(User usr)
         {
             DataContext db = new DataContext();
-            if (ModelState.IsValid)
-            {
+            
                 //validate the email and password
                 var res = db.users.Where(item => item.Username == usr.Username && item.Password == usr.Password).ToList();
 
@@ -41,9 +47,9 @@ namespace MessangingApp1.Controllers
                     ViewBag.ErrorMessage = "Invalid UserName or Password";
                     return View();
                 }
-            }
+            
 
-            return View();
+            
         }
         public ActionResult Signup()
         {
@@ -67,9 +73,12 @@ namespace MessangingApp1.Controllers
                 res = db.users.Where(item => item.Email == usr.Email);
                 if (res.Count() != 0)
                 {
+
+
                     ViewBag.ErrorMessage = "Email Already Exist!";
                     return View();
                 }
+                usr.CreatedAt = DateTime.Now;
                 db.users.Add(usr);
                 db.SaveChanges();
                 return RedirectToAction("Login");
@@ -98,6 +107,12 @@ namespace MessangingApp1.Controllers
                 }
                 else
                 {
+                    foreach(var i in res)
+                    {
+                        var data = db.posts.Where(item => item.ChannelId == i.ChannelId).ToList();
+                        i.CountPosts = data.Count();
+                        db.SaveChanges();
+                    }
                     return View(res);
                 }
 
@@ -116,9 +131,15 @@ namespace MessangingApp1.Controllers
             List<Channel> channellist = new List<Channel>();
             foreach (var i in list)
             {
-                channellist.Add(db.channels.Where(item => item.ChannelId == i.ChannelId).First());
+                //channellist.Add(db.channels.Where(item => item.ChannelId == i.ChannelId).First());
+                var res = db.channels.Where(item => item.ChannelId == i.ChannelId).First();
+                var posts = db.posts.Where(item => item.ChannelId == res.ChannelId).ToList();
+                res.CountPosts = posts.Count();
+                db.SaveChanges();
+                channellist.Add(res);
             }
-
+            
+            
             return View(channellist);
         }
     }

@@ -11,6 +11,8 @@ namespace MessangingApp1.Models
     {
         [Key, Column(Order = 1)]
         public int InviteId { get; set; }
+        [Required]
+        [MinLength(3)]
         public string InviteUserName { get; set; }
         public int ChannelId { get; set; }
     }

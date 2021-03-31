@@ -13,15 +13,19 @@ namespace MessangingApp1.Controllers
         // GET: Tag
         public ActionResult Index()
         {
+            if (ModelState.IsValid)
+            {
+                DataContext db = new DataContext();
+                List<Tag> res = db.tags.Where(item => item.ChannelId == Convert.ToInt32(Session["channelid"])).ToList();
 
-            DataContext db = new DataContext();
-            List<Tag> res = db.tags.Where(item => item.ChannelId == Convert.ToInt32(Session["channelid"])).ToList();
+                TagListViewModel viewModel = new TagListViewModel();
+                viewModel.TagItems.Clear();
+                viewModel.TagItems = res;
+                return View(viewModel);
+            }
+            
 
-            TagListViewModel viewModel = new TagListViewModel();
-            viewModel.TagItems.Clear();
-            viewModel.TagItems = res;
-
-            return View(viewModel);
+            return View();
         }
 
         public ActionResult Edit(int id)

@@ -26,11 +26,11 @@
                     @if (Session["userid"] == null)
                     {
                         <li>@Html.ActionLink("Login", "Login", "Home")</li>
-                        <li>@Html.ActionLink("Signup", "Signup", "Home")</li>
+                        <li><i class="fa fa-sign-in" aria-hidden="true"></i>@Html.ActionLink("Signup", "Signup", "Home")</li>
                     }
                     else if (Session["userid"] != null)
                     {
-                        <li>@Html.ActionLink("Channels", "InviteChannels", "Home")</li>
+                        <li>@Html.ActionLink("Invited Channels", "InviteChannels", "Home")</li>
                         <li style="color:white; margin-top:15px;">Hi, @Session["name"]</li>
                         <li>@Html.ActionLink("Logout", "Logout", "Home")</li>
 

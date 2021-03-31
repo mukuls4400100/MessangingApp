@@ -22,6 +22,7 @@ namespace MessangingApp1.Controllers
             DataContext db = new DataContext();
             newPost.UserName = Convert.ToString(Session["name"]);
             newPost.ChannelId = int.Parse(Request.Url.Segments.Last());
+            newPost.CreatedAt = DateTime.Now;
             db.posts.Add(newPost);
             db.SaveChanges();
             return RedirectToAction("Index", newPost.ChannelId);
@@ -44,18 +45,19 @@ namespace MessangingApp1.Controllers
 
             Post post = db.posts.Where(item => item.PostId == id).First();
 
-            PostIndexViewModel p = new PostIndexViewModel();
+            Post p = new Post();
             p.PostId = id;
             p.Title = post.Title;
             p.Content = post.Content;
             p.Replies = db.replies.Where(item => item.PostId == id).ToList();
             p.UserName = Convert.ToString(Session["name"]);
             p.ChannelId = post.ChannelId;
+            p.CreatedAt = DateTime.Now;
             return View(p);
         }
 
         [HttpPost]
-        public ActionResult CreateMessage(PostIndexViewModel pr)
+        public ActionResult CreateMessage(Post pr)
         {
             DataContext db = new DataContext();
 
@@ -64,6 +66,7 @@ namespace MessangingApp1.Controllers
             newpost.userId = Convert.ToInt32(Session["userid"]);
             newpost.userName = Convert.ToString(Session["name"]);
             newpost.ReplyContent = pr.Content;
+            newpost.DateCreated = DateTime.Now;
             db.replies.Add(newpost);
             db.SaveChanges();
             return RedirectToAction("CreateMessage", int.Parse(Request.Url.Segments.Last()));

@@ -12,6 +12,8 @@ namespace MessangingApp1.Models
         [Key, Column(Order = 1)]
         public int TagId { get; set; }
 
+        [Required]
+        [MinLength(3)]
         public string TagName { get; set; }
 
         public int ChannelId { get; set; }
