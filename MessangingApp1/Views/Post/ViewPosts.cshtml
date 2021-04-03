@@ -21,47 +21,58 @@
     </div>
 }
 
+@Html.ActionLink("Create Posts", "Index", "Post", new { id = Session["channelid"] }, new { @class = "btn btn-danger" })
 
-<h2>ViewPosts</h2>
-<table class="table table-bordered">
-    <tr style="font-size:150%;">
-        <th>
-            @Html.DisplayNameFor(model => model.posts.First().Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.posts.First().Content)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.posts.First().UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.posts.First().CreatedAt)
-        </th>
-        <th>
-            Create Message
-        </th>
 
-    </tr>
 
-    @foreach (var item in Model.posts)
-    {
-        <tr>
-            <td style="font-size:150%;color:red;">
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td style="font-size:150%;color:blue;">
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td style="font-size:150%;color:green;">
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td style="font-size:150%;color:red;">
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                @Html.ActionLink("Create Message", "CreateMessage", new { id = item.PostId }, new { @class = "btn btn-success btn-block" })
-            </td>
+@if (Model.posts.Count() != 0)
+{
+    <h2>ViewPosts</h2>
+    <table class="table table-bordered">
+        <tr style="font-size:150%;">
+            <th>
+                @Html.DisplayNameFor(model => model.posts.First().Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.posts.First().Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.posts.First().UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.posts.First().CreatedAt)
+            </th>
+            <th>
+                Create Message
+            </th>
+
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model.posts)
+        {
+            <tr>
+                <td style="font-size:150%;color:red;">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td style="font-size:150%;color:blue;">
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+                <td style="font-size:150%;color:green;">
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td style="font-size:150%;color:red;">
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    @Html.ActionLink("Create Message", "CreateMessage", new { id = item.PostId }, new { @class = "btn btn-success btn-block btn-sm" })
+                </td>
+            </tr>
+        }
+
+
+    </table>
+}
+else
+{
+    <h1>No Posts</h1>
+}

@@ -127,7 +127,7 @@ namespace MessangingApp1.Controllers
         public ActionResult InviteChannels()
         {
             DataContext db = new DataContext();
-            var list = db.inviteUsers.Where(item => item.InviteUserName == Convert.ToString(Session["name"])).ToList();
+            var list = db.inviteUsers.Where(item => item.user.Username == Convert.ToString(Session["name"])).ToList();
             List<Channel> channellist = new List<Channel>();
             foreach (var i in list)
             {

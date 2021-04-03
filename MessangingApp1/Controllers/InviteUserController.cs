@@ -50,9 +50,9 @@ namespace MessangingApp1.Controllers
         public ActionResult CreateUpdate(InviteListViewModel viewModel)
         {
             DataContext db = new DataContext();
-            var data = db.inviteUsers.Where(item => item.InviteUserName == viewModel.instance.InviteUserName && item.ChannelId == Convert.ToInt32(Session["channelid"])).ToList();
+            var data = db.inviteUsers.Where(item => item.user == viewModel.instance.user && item.ChannelId == Convert.ToInt32(Session["channelid"])).ToList();
 
-            var res = db.users.Where(item => item.Username == viewModel.instance.InviteUserName).ToList();
+            List<User> res = db.users.Where(item => item.Username == viewModel.instance.user.Username).ToList();
             if (res.Count() != 0 && data.Count() == 0)
             {
 

@@ -20,7 +20,7 @@
                 View  Posts
             </th>
             <th>
-                Post Message
+                Create Posts
             </th>
         </tr>
         @foreach (var item in Model.OrderByDescending(m=> m.CountPosts))
@@ -39,7 +39,7 @@
             @Html.ActionLink("View Posts", "ViewPosts", "Post", new { id = item.ChannelId }, new { @class = "btn btn-success btn-block" })
         </td>
         <td>
-            @Html.ActionLink("Post Message", "Index", "Post", new { id = item.ChannelId }, new { @class = "btn btn-danger btn-block" })
+            @Html.ActionLink("Create Posts", "Index", "Post", new { id = item.ChannelId }, new { @class = "btn btn-danger btn-block" })
         </td>
     </tr>
         }

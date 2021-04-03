@@ -277,6 +277,10 @@
     <Compile Include="Migrations\20210331044419_messngingappd3.designer.cs">
       <DependentUpon>20210331044419_messngingappd3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20210331105257_messngingapp2.cs" />
+    <Compile Include="Migrations\20210331105257_messngingapp2.designer.cs">
+      <DependentUpon>20210331105257_messngingapp2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataContextModelSnapshot.cs" />
     <Compile Include="Models\Channel.cs" />
     <Compile Include="Models\ChannelForm.cs" />
