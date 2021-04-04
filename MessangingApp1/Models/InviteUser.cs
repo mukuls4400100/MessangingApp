@@ -13,9 +13,7 @@ namespace MessangingApp1.Models
         public int InviteId { get; set; }
         [Required]
         [MinLength(3)]
-        //public string InviteUserName { get; set; }
-
-        public User user { get; set; }
+        public string InviteUserName { get; set; }
         public int ChannelId { get; set; }
     }
 }

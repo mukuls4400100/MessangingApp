@@ -20,5 +20,8 @@ namespace MessangingApp1.Models
 
         [NotMapped]
         public IEnumerable<PostReply> Replies { get; set; }
+
+        [NotMapped]
+        public PostReply enterReply { get; set; }
     }
 }

@@ -24,12 +24,12 @@ namespace MessangingApp1.Controllers
             return View(viewModel);
         }
 
-       /* public ActionResult Edit(int id)
-        {
-            InviteListViewModel viewModel = new InviteListViewModel();
-            viewModel.instance = viewModel.InviteUsers.FirstOrDefault(x => x.InviteId == id);
-            return View(viewModel);
-        }*/
+        /*   public ActionResult Edit(int id)
+           {
+               InviteListViewModel viewModel = new InviteListViewModel();
+               viewModel.instance = viewModel.InviteUsers.FirstOrDefault(x => x.InviteId == id);
+               return View(viewModel);
+           }*/
 
         public ActionResult Delete(int id)
         {
@@ -50,18 +50,33 @@ namespace MessangingApp1.Controllers
         public ActionResult CreateUpdate(InviteListViewModel viewModel)
         {
             DataContext db = new DataContext();
-            var data = db.inviteUsers.Where(item => item.user == viewModel.instance.user && item.ChannelId == Convert.ToInt32(Session["channelid"])).ToList();
-
-            List<User> res = db.users.Where(item => item.Username == viewModel.instance.user.Username).ToList();
-            if (res.Count() != 0 && data.Count() == 0)
+            if(viewModel.instance.InviteUserName == null)
             {
-
-                viewModel.instance.ChannelId = Convert.ToInt32(Session["channelid"]);
-                db.inviteUsers.Add(viewModel.instance);
-                db.SaveChanges();
-
+                TempData["error"] = "User Name is Empty";
             }
-
+            else if(viewModel.instance.InviteUserName != null)
+            {
+                ///already invited h ya nahi///
+                var data = db.inviteUsers.Where(item => item.InviteUserName == viewModel.instance.InviteUserName && item.ChannelId == Convert.ToInt32(Session["channelid"])).ToList();
+                ////exist karta h database m ya nahi////
+                var res = db.users.Where(item => item.Username == viewModel.instance.InviteUserName).ToList();
+                if(viewModel.instance.InviteUserName == Convert.ToString(Session["name"]))
+                {
+                    TempData["error"] = "you cannot invite himself";
+                }
+                else if (res.Count() != 0 && data.Count() == 0)
+                {
+                    viewModel.instance.ChannelId = Convert.ToInt32(Session["channelid"]);
+                    db.inviteUsers.Add(viewModel.instance);
+                    db.SaveChanges();
+                    TempData["error"] = "Added Successfully";
+                }
+                else if(res.Count() == 0)
+                {
+                    TempData["error"] = "not have an account";
+                }
+                
+            }
             return RedirectToAction("Index");
         }
     }

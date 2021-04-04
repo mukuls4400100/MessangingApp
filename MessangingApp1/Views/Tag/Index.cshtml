@@ -9,6 +9,7 @@
 
             @using (Html.BeginForm("CreateUpdate", "Tag", FormMethod.Post))
             {
+                <span class="badge badge-danger">@TempData["errormessage"]</span><br>
                 @Html.AntiForgeryToken()
                 <div class="form-group">
                     @Html.LabelFor(m => m.EditableItem.TagName)

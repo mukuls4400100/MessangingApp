@@ -5,11 +5,12 @@
 }
 
 
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     <h2>Create Post</h2>
+
+    <h3 class="badge badge-danger">@ViewBag.ErrorMessage</h3>
     <div class="form-horizontal">
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })

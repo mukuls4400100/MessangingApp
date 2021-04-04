@@ -54,10 +54,25 @@ namespace MessangingApp1.Controllers
         public ActionResult CreateUpdate(TagListViewModel viewModel)
         {
             DataContext db = new DataContext();
-
-            viewModel.EditableItem.ChannelId = Convert.ToInt32(Session["channelid"]);
-            db.tags.Add(viewModel.EditableItem);
-            db.SaveChanges();
+            if(viewModel.EditableItem.TagName == null)
+            {
+                TempData["errormessage"] = "Empty Tag Name";
+            }
+            else if (viewModel.EditableItem.TagName != null)
+            {
+                var tags = db.tags.Where(item => item.ChannelId == Convert.ToInt32(Session["channelid"]) && viewModel.EditableItem.TagName == item.TagName).ToList();
+                if (tags.Count() != 0)
+                {
+                    TempData["errormessage"] = "Tag Name already exist";
+                }
+                else
+                {
+                    viewModel.EditableItem.ChannelId = Convert.ToInt32(Session["channelid"]);
+                    db.tags.Add(viewModel.EditableItem);
+                    db.SaveChanges(); 
+                }
+               
+            }
             return RedirectToAction("Index");
         }
 

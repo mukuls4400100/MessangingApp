@@ -8,11 +8,11 @@ namespace MessangingApp1.ViewModels
 {
     public class TrendingListViewModel
     {
-        public List<User> trendingRegions { get; set; }
+        public IEnumerable<Trending> trendingRegions { get; set; }
 
-        public List<User> trendingUser { get; set; }
+        public IEnumerable<Trending> trendingUser { get; set; }
 
-        public List<User> trendingTags { get; set; }
-        public List<User> trendingChannels { get; set; }
+        public IEnumerable<Trending> trendingTags { get; set; }
+        public IEnumerable<Trending> trendingChannels { get; set; }
     }
 }

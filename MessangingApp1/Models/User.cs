@@ -36,5 +36,8 @@ namespace MessangingApp1.Models
         {
             get; set;
         }
+
+        [NotMapped]
+        public int c1 { get; set; }
     }
 }

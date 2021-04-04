@@ -1,4 +1,8 @@
-﻿using MessangingApp1.Models;
+﻿
+
+
+
+using MessangingApp1.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,16 +17,70 @@ namespace MessangingApp1.Controllers
     {
         public ActionResult Index()
         {
-            /*DataContext db = new DataContext();
-            TrendingListViewModel tr = new TrendingListViewModel();
-            tr.trendingRegions = db.users.FromSqlRaw("Select Region, Count(UserId) as 'Count Of User' from users group by Region orderBy Count(UserId) desc").ToList();
-           */
-            /*var regions = db.users.GroupBy(item=> item.Region).OrderByDescending()*/
-            return View();
+            if (Session["userid"] != null)
+            {
+                /*var data = (from x in db.users
+                            group x by x.Region into egroup
+                            orderby egroup.Key.Count() descending
+                            select egroup).ToList();
+                ViewBag.mess = data;*/
+                TrendingListViewModel tr = new TrendingListViewModel();
+              DataContext db = new DataContext();
+              var list =           (from p in db.users
+                                   join f in db.posts
+                                   on p.Username equals f.UserName into trend
+                                   from x in trend.DefaultIfEmpty()
+                                   group x by new { p.Region } into r
+                                   select new Trending
+                                   {
+                                       Name = r.Key.Region,
+                                       Count = r.Count()
+                                   }).OrderByDescending(c => c.Count).ToList().Take(5);
+
+                tr.trendingRegions = (IEnumerable<Trending>)list;
+
+                var list1 = (from p in db.users
+                            join f in db.posts
+                            on p.Username equals f.UserName into trend
+                            from x in trend.DefaultIfEmpty()
+                            group x by new { p.Username } into r
+                            select new Trending
+                            {
+                                Name = r.Key.Username,
+                                Count = r.Count()
+                            }).OrderByDescending(c => c.Count).ToList().Take(5);
+
+                tr.trendingUser = (IEnumerable<Trending>)list1;
+
+                var list2 = (from p in db.channels
+                             join f in db.posts
+                             on p.ChannelId equals f.ChannelId into trend
+                             from x in trend.DefaultIfEmpty()
+                             group x by new { p.ChannelName } into r
+                             select new Trending
+                             {
+                                 Name = r.Key.ChannelName,
+                                 Count = r.Count()
+                             }).OrderByDescending(c => c.Count).ToList().Take(5);
+
+                tr.trendingChannels = (IEnumerable<Trending>)list2;
+
+                var list3 = (from p in db.tags
+                             group p by new { p.TagName } into r
+                             select new Trending
+                             {
+                                 Name = r.Key.TagName,
+                                 Count = r.Count()
+                             }).OrderByDescending(c => c.Count).ToList().Take(5);
+
+                tr.trendingTags = (IEnumerable<Trending>)list3;
+
+                return View(tr);
+            }
+                return View();
         }
 
         public ActionResult Login()
-
         {
             return View();
         }
@@ -34,22 +92,25 @@ namespace MessangingApp1.Controllers
             
                 //validate the email and password
                 var res = db.users.Where(item => item.Username == usr.Username && item.Password == usr.Password).ToList();
+                var res1 = db.users.Where(item => item.Username == usr.Username).ToList();
 
                 if (res.Count() != 0)
                 {
                     Session["userid"] = res[0].UserId;
                     Session["name"] = res[0].Username;
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("InviteChannels");
+                }
+                else if(res1.Count() == 0)
+                {
+                    ViewBag.ErrorMessage = "Not have an account";
+                    return View();
                 }
                 else
                 {
-                    ViewBag.ErrorMessage = "Invalid UserName or Password";
+                    ViewBag.ErrorMessage = "Invalid password";
                     return View();
                 }
-            
-
-            
         }
         public ActionResult Signup()
         {
@@ -109,6 +170,8 @@ namespace MessangingApp1.Controllers
                 {
                     foreach(var i in res)
                     {
+                        List<Tag> channeltags = (List<Tag>)db.tags.Where(item => item.ChannelId == i.ChannelId).ToList();
+                        i.tags = channeltags;
                         var data = db.posts.Where(item => item.ChannelId == i.ChannelId).ToList();
                         i.CountPosts = data.Count();
                         db.SaveChanges();
@@ -127,7 +190,7 @@ namespace MessangingApp1.Controllers
         public ActionResult InviteChannels()
         {
             DataContext db = new DataContext();
-            var list = db.inviteUsers.Where(item => item.user.Username == Convert.ToString(Session["name"])).ToList();
+            var list = db.inviteUsers.Where(item => item.InviteUserName == Convert.ToString(Session["name"])).ToList();
             List<Channel> channellist = new List<Channel>();
             foreach (var i in list)
             {

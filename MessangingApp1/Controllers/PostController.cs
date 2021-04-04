@@ -11,7 +11,7 @@ namespace MessangingApp1.Controllers
     public class PostController : Controller
     {
         // GET: Post
-        public ActionResult Index(int? channelId)
+        public ActionResult Index()
         {
             return View();
         }
@@ -19,13 +19,19 @@ namespace MessangingApp1.Controllers
         [HttpPost]
         public ActionResult Index(Post newPost)
         {
+            if (newPost.Title == null || newPost.Content == null)
+            {
+                ViewBag.ErrorMessage = "Empty Title or Content....";
+                return View();
+            }
             DataContext db = new DataContext();
             newPost.UserName = Convert.ToString(Session["name"]);
             newPost.ChannelId = int.Parse(Request.Url.Segments.Last());
             newPost.CreatedAt = DateTime.Now;
             db.posts.Add(newPost);
             db.SaveChanges();
-            return RedirectToAction("Index", newPost.ChannelId);
+            ViewBag.ErrorMessage = "Post Created Successfully....";
+            return View();
         }
 
 
@@ -52,7 +58,7 @@ namespace MessangingApp1.Controllers
             p.Replies = db.replies.Where(item => item.PostId == id).ToList();
             p.UserName = Convert.ToString(Session["name"]);
             p.ChannelId = post.ChannelId;
-            p.CreatedAt = DateTime.Now;
+            p.CreatedAt = post.CreatedAt;
             return View(p);
         }
 
@@ -60,15 +66,21 @@ namespace MessangingApp1.Controllers
         public ActionResult CreateMessage(Post pr)
         {
             DataContext db = new DataContext();
-
-            PostReply newpost = new PostReply();
-            newpost.PostId = int.Parse(Request.Url.Segments.Last());
-            newpost.userId = Convert.ToInt32(Session["userid"]);
-            newpost.userName = Convert.ToString(Session["name"]);
-            newpost.ReplyContent = pr.Content;
-            newpost.DateCreated = DateTime.Now;
-            db.replies.Add(newpost);
-            db.SaveChanges();
+            if (pr.enterReply.ReplyContent == null)
+            {
+                TempData["emptymessage"] = "Empty Message.....";
+                return RedirectToAction("CreateMessage", int.Parse(Request.Url.Segments.Last()));
+            }
+            else
+            {
+                PostReply newpost = new PostReply();
+                newpost.PostId = int.Parse(Request.Url.Segments.Last());
+                newpost.userId = Convert.ToInt32(Session["userid"]);
+                newpost.userName = Convert.ToString(Session["name"]);
+                newpost.DateCreated = DateTime.Now;
+                db.replies.Add(newpost);
+                db.SaveChanges();
+            }
             return RedirectToAction("CreateMessage", int.Parse(Request.Url.Segments.Last()));
         }
         // public ActionResult SearchPosts(int id)

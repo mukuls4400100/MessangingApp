@@ -9,11 +9,12 @@
 
             @using (Html.BeginForm("CreateUpdate", "InviteUser", FormMethod.Post))
             {
+                <span class="badge bg-danger">@TempData["error"]</span>
                 @Html.AntiForgeryToken()
                 <div class="form-group">
-                    @Html.LabelFor(m => m.instance.user.Username)
-                    @Html.TextBoxFor(m => m.instance.user.Username, new { @class = "form-control", @placeholder = "Enter UserName" })
-                    @Html.ValidationMessageFor(m => m.instance.user.Username, "", new { @class = "badge badge-danger" })
+                    @Html.LabelFor(m => m.instance.InviteUserName)
+                    @Html.TextBoxFor(m => m.instance.InviteUserName, new { @class = "form-control", @placeholder = "Enter UserName" })
+                    @Html.ValidationMessageFor(m => m.instance.InviteUserName, "", new { @class = "badge badge-danger" })
                 </div>
 
                 <div class="form-group">
@@ -26,8 +27,9 @@
         foreach (var item in Model.InviteUsers)
         {
             <tr>
+
                 <td style="font-size:150%;">
-                    @item.user.Username
+                    @item.InviteUserName
                 </td>
                 <td class="text-center">
                     <a href="/InviteUser/Delete/@item.InviteId" onclick="return confirm('Are you sure?');" class="btn btn-sm btn-danger">Delete</a>

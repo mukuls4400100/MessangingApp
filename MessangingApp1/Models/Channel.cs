@@ -24,6 +24,9 @@ namespace MessangingApp1.Models
         public int UserId { get; set; }
 
         public int CountPosts { get; set; }
+
+        [NotMapped]
+        public IEnumerable<Tag> tags { get; set; }
     }
     
 }

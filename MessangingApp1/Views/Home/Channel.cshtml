@@ -17,6 +17,9 @@
                 Number of Posts
             </th>
             <th>
+               Tags
+            </th>
+            <th>
                 View  Posts
             </th>
             <th>
@@ -25,23 +28,34 @@
         </tr>
         @foreach (var item in Model.OrderByDescending(m=> m.CountPosts))
         {
-    <tr>
-        <td style="font-size:150%;color:red;">
-            @item.ChannelName
-        </td>
-        <td style="font-size:150%;color:green;">
-            @item.Description
-        </td>
-        <td style="font-size:150%;color:green;">
-            @item.CountPosts
-        </td>
-        <td>
-            @Html.ActionLink("View Posts", "ViewPosts", "Post", new { id = item.ChannelId }, new { @class = "btn btn-success btn-block" })
-        </td>
-        <td>
-            @Html.ActionLink("Create Posts", "Index", "Post", new { id = item.ChannelId }, new { @class = "btn btn-danger btn-block" })
-        </td>
-    </tr>
+            <tr>
+                <td style="font-size:150%;color:red;">
+                    @item.ChannelName
+                </td>
+                <td style="font-size:150%;color:green;">
+                    @item.Description
+                </td>
+                <td style="font-size:150%;color:green;">
+                    @item.CountPosts
+                </td>
+                <td>
+                    <select class="form-control" name="Channel Tags">
+                        @*<option selected disabled>Channel Tags</option>*@
+                        @foreach (var i in item.tags)
+                        {
+                            <option>@i.TagName</option>
+                        }
+                    </select>
+                        
+                    
+                </td>
+                <td>
+                    @Html.ActionLink("View Posts", "ViewPosts", "Post", new { id = item.ChannelId }, new { @class = "btn btn-success btn-block" })
+                </td>
+                <td>
+                    @Html.ActionLink("Create Posts", "Index", "Post", new { id = item.ChannelId }, new { @class = "btn btn-danger btn-block" })
+                </td>
+            </tr>
         }
 
     </table>

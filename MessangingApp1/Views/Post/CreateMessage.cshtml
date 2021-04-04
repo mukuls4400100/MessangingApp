@@ -3,50 +3,85 @@
 @{
     ViewBag.Title = "DisplayPostReply";
 }
-
-<h2>@Model.Title</h2>
-<h2>@Model.Content</h2>
-<h2>@Model.UserName</h2>
-<h2>@Model.CreatedAt</h2>
-
-
-<div>
-    @using (Html.BeginForm("CreateMessage", "Post", FormMethod.Post))
-    {
-        <h1 class="form-group">
-            @Html.TextBoxFor(m => m.Content, "", new { @class = "form-control", @placeholder = "Enter Reply" })
-        </h1>
-
-        <h1 class="form-group">
-            <input type="submit" class="btn btn-primary" value="Post Reply" />
-        </h1>
+<style>
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        margin: auto;
+        text-align: center;
+        font-family: arial;
+        border-radius: 10%;
     }
-</div>
+
+    .price {
+        color: grey;
+        font-size: 22px;
+    }
 
 
-@if (Model.Replies.Count() != 0)
-{
-    foreach (var reply in Model.Replies)
-    {
-        <div class="row replyContent">
-            <div class="col-md-3 replyAuthorContainer">
-                @reply.userName
-                <span>@reply.DateCreated</span>
+    .card button:hover {
+        opacity: 0.7;
+    }
+</style>
+
+<div class="row">
+
+
+    <div class="col-lg-6">
+        <div>
+            <div class="card">
+                <h1>Title:@Model.Title</h1>
+                <p class="price">@Model.UserName</p>
+                <p class="price">@Model.CreatedAt</p>
+                <h4>@Model.Content</h4>
             </div>
-            <div class="col-md-9 replyContentContainer">
-                <div class="postContent">
-                    @reply.ReplyContent
-                </div>
 
+            <div class="card">
+                <span class="badge badge-danger">@TempData["emptymessage"]</span>
+
+                @using (Html.BeginForm("CreateMessage", "Post", FormMethod.Post))
+                {
+                    <h1>Post Message!!!!</h1>
+                    @Html.LabelFor(m => m.enterReply.ReplyContent)
+                    @Html.TextAreaFor(m => m.enterReply.ReplyContent, new { @class = "form-control", @placeholder = "Enter Reply" })
+
+                    <h1 class="form-group">
+                        <input type="submit" class="btn btn-danger btn-block" value="Post Reply" />
+                    </h1>}
             </div>
         </div>
-    }
+    </div>
+
+    <div class="col-lg-6">
+
+        @if (Model.Replies.Count() != 0)
+        {
+            <table>
+                <tr style="font-size:150%;">
+                    <td colspan="3"><h2>Replies......</h2></td>
+                </tr>
+
+                @foreach (var item in Model.Replies.ToList())
+                {
+                    <tr>
+                        <td colspan="3">
+                            <div class="card">
+                                <h2>@item.ReplyContent</h2>
+                                <p class="price">Replied by:@item.userName</p>
+                                <p class="price">Replied At:@item.DateCreated</p>
+                            </div>
+                        </td>
+
+                    </tr>
 }
-else
-{
-    <h2>No replies!!!!!</h2>
-}
+
+            </table>}
+
+        else
+        {
+            <h1>No Replies on this post!!!</h1>
+        }
 
 
-
-
+    </div>
+</div>

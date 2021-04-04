@@ -1,56 +1,87 @@
-﻿@{
+﻿@model MessangingApp1.ViewModels.TrendingListViewModel
+@{
     ViewBag.Title = "Index";
+
+
+
 }
-
 <h1>Index</h1>
+<Table>
 
-@*@model  MessangingApp1.ViewModels.TrendingListViewModel
+    @if (@Model != null)
+    {
 
-
-
-    <h2>Index</h2>
-
-    <table>
-        @foreach (var item in Model.trendingChannels)
+        foreach (var i in Model.trendingRegions)
         {
             <tr>
                 <td>
-                    @item.Name
+                    @i.Name
                 </td>
-
                 <td>
-                    @item.Count
+                    @i.Count
                 </td>
             </tr>
-        }
-    </table>
-    <table>
-        @foreach (var item in Model.trendingRegions)
+         }
+     }
+
+
+</Table>
+<Table>
+
+    @if (@Model != null)
+    {
+
+        foreach (var i in Model.trendingUser)
         {
             <tr>
                 <td>
-                    @item.Name
+                    @i.Name
                 </td>
-
                 <td>
-                    @item.Count
+                    @i.Count
                 </td>
             </tr>
         }
-    </table>
-    <table>
-        @foreach (var item in Model.trendingUser)
+    }
+</Table>
+<Table>
+
+    @if (@Model != null)
+    {
+
+        foreach (var i in Model.trendingChannels)
         {
             <tr>
                 <td>
-                    @item.Name
+                    @i.Name
                 </td>
-
                 <td>
-                    @item.Count
+                    @i.Count
                 </td>
             </tr>
         }
-    </table>
+    }
 
-*@
+
+</Table>
+<Table>
+
+    @if (@Model != null)
+    {
+
+        foreach (var i in Model.trendingTags)
+        {
+            <tr>
+                <td>
+                    @i.Name
+                </td>
+                <td>
+                    @i.Count
+                </td>
+            </tr>
+        }
+    }
+
+
+</Table>
+
