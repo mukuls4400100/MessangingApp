@@ -1,87 +1,87 @@
 ﻿@model MessangingApp1.ViewModels.TrendingListViewModel
 @{
-    ViewBag.Title = "Index";
-
-
-
+    ViewBag.Title = "Dashboard";
 }
-<h1>Index</h1>
-<Table>
-
-    @if (@Model != null)
-    {
-
-        foreach (var i in Model.trendingRegions)
-        {
-            <tr>
-                <td>
-                    @i.Name
-                </td>
-                <td>
-                    @i.Count
-                </td>
-            </tr>
-         }
-     }
-
-
-</Table>
-<Table>
-
-    @if (@Model != null)
-    {
-
-        foreach (var i in Model.trendingUser)
-        {
-            <tr>
-                <td>
-                    @i.Name
-                </td>
-                <td>
-                    @i.Count
-                </td>
-            </tr>
-        }
-    }
-</Table>
-<Table>
-
-    @if (@Model != null)
-    {
-
-        foreach (var i in Model.trendingChannels)
-        {
-            <tr>
-                <td>
-                    @i.Name
-                </td>
-                <td>
-                    @i.Count
-                </td>
-            </tr>
-        }
-    }
-
-
-</Table>
-<Table>
-
-    @if (@Model != null)
-    {
-
-        foreach (var i in Model.trendingTags)
-        {
-            <tr>
-                <td>
-                    @i.Name
-                </td>
-                <td>
-                    @i.Count
-                </td>
-            </tr>
-        }
-    }
-
-
-</Table>
-
+<center><h1>@ViewBag.Title</h1></center><br><br>
+<div class="row">
+    <div class="col-lg-3">
+        <Table class="table table-bordered">
+            <tr class="bg bg-primary text-muted"><td>Top Trending Regions</td></tr>
+            @if (@Model != null)
+            {
+                foreach (var i in Model.trendingRegions)
+                {
+                    <tr>
+                        <td>
+                            @i.Name
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr class="bg bg-primary text-muted"><td>No Trending Regions!!!!!!</td></tr>
+            }
+        </Table>
+    </div>
+    <div class="col-lg-3">
+        <Table class="table table-bordered">
+            <tr class="bg bg-primary text-muted"><td>Top Trending Channels</td></tr>
+            @if (@Model != null)
+            {
+                foreach (var i in Model.trendingChannels)
+                {
+                    <tr>
+                        <td>
+                            @i.Name
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr class="bg bg-primary text-muted"><td>No Trending Channels!!!!!!</td></tr>
+            }
+        </Table>
+    </div>
+    <div class="col-lg-3">
+        <Table class="table table-bordered">
+            <tr class="bg bg-primary text-muted"><td>Top Trending Tags</td></tr>
+            @if (@Model != null)
+            {
+                foreach (var i in Model.trendingTags)
+                {
+                    <tr>
+                        <td>
+                            @i.Name
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr class="bg bg-primary text-muted"><td>No Trending Tags!!!!!!</td></tr>
+            }
+        </Table>
+    </div>
+    <div class="col-lg-3">
+        <Table class="table table-bordered ">
+            <tr class="bg bg-primary text-muted"><td>Top Trending Users</td></tr>
+            @if (@Model != null)
+            {
+                foreach (var i in Model.trendingUser)
+                {
+                    <tr>
+                        <td>
+                            @i.Name
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr class="bg bg-primary text-muted"><td>No Trending Users!!!!!!</td></tr>
+            }
+        </Table>
+    </div>
+</div>

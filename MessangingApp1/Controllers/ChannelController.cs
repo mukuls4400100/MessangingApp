@@ -13,7 +13,6 @@ namespace MessangingApp.Controllers
         // GET: Channel
         public ActionResult Index()
         {
-
             return View();
         }
 
@@ -29,15 +28,15 @@ namespace MessangingApp.Controllers
                     c.UserId = Convert.ToInt32(Session["userid"]);
                     db.channels.Add(c);
                     db.SaveChanges();
+
                     var r = db.channels.Where(item => item.ChannelName == c.ChannelName).ToList();
                     Session["channelid"] = r.First().ChannelId;
-
-
-
+                    
                     TagListViewModel t = new TagListViewModel();
                     InviteListViewModel t2 = new InviteListViewModel();
                     t.TagItems.Clear();
                     t2.InviteUsers.Clear();
+
                     return RedirectToAction("../Tag/Index");
                 }
                 else

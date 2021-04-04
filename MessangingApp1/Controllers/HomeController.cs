@@ -1,8 +1,4 @@
-﻿
-
-
-
-using MessangingApp1.Models;
+﻿using MessangingApp1.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,23 +15,20 @@ namespace MessangingApp1.Controllers
         {
             if (Session["userid"] != null)
             {
-                /*var data = (from x in db.users
-                            group x by x.Region into egroup
-                            orderby egroup.Key.Count() descending
-                            select egroup).ToList();
-                ViewBag.mess = data;*/
-                TrendingListViewModel tr = new TrendingListViewModel();
+              TrendingListViewModel tr = new TrendingListViewModel();
               DataContext db = new DataContext();
-              var list =           (from p in db.users
-                                   join f in db.posts
-                                   on p.Username equals f.UserName into trend
-                                   from x in trend.DefaultIfEmpty()
-                                   group x by new { p.Region } into r
-                                   select new Trending
-                                   {
-                                       Name = r.Key.Region,
-                                       Count = r.Count()
-                                   }).OrderByDescending(c => c.Count).ToList().Take(5);
+              var list = (from p in db.users
+                          join f in db.posts
+                          on p.Username equals f.UserName into trend
+                          from x in trend.DefaultIfEmpty()
+                          select new 
+                          {
+                            Name = p.Region,
+                            Count = x == null?0:1
+                          }).GroupBy(o=>o.Name).Select(o=> new Trending
+                          { 
+                              Name = o.Key, Count = o.Sum(p=>p.Count)
+                          }).OrderByDescending(c => c.Count).ToList().Take(5);
 
                 tr.trendingRegions = (IEnumerable<Trending>)list;
 
@@ -43,11 +36,14 @@ namespace MessangingApp1.Controllers
                             join f in db.posts
                             on p.Username equals f.UserName into trend
                             from x in trend.DefaultIfEmpty()
-                            group x by new { p.Username } into r
-                            select new Trending
+                            select new 
                             {
-                                Name = r.Key.Username,
-                                Count = r.Count()
+                                Name = p.Username,
+                                Count = x == null ? 0 : 1
+                            }).GroupBy(o => o.Name).Select(o => new Trending
+                            {
+                                Name = o.Key,
+                                Count = o.Sum(p => p.Count)
                             }).OrderByDescending(c => c.Count).ToList().Take(5);
 
                 tr.trendingUser = (IEnumerable<Trending>)list1;
@@ -134,8 +130,6 @@ namespace MessangingApp1.Controllers
                 res = db.users.Where(item => item.Email == usr.Email);
                 if (res.Count() != 0)
                 {
-
-
                     ViewBag.ErrorMessage = "Email Already Exist!";
                     return View();
                 }
@@ -201,8 +195,6 @@ namespace MessangingApp1.Controllers
                 db.SaveChanges();
                 channellist.Add(res);
             }
-            
-            
             return View(channellist);
         }
     }

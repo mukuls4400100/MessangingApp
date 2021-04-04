@@ -18,18 +18,12 @@ namespace MessangingApp1.Controllers
             List<InviteUser> res = db.inviteUsers.Where(item => item.ChannelId == Convert.ToInt32(Session["channelid"])).ToList();
 
             InviteListViewModel viewModel = new InviteListViewModel();
-            viewModel.InviteUsers.Clear();
+            /*changes~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+            /* viewModel.InviteUsers.Clear();*/
             viewModel.InviteUsers = res;
 
             return View(viewModel);
         }
-
-        /*   public ActionResult Edit(int id)
-           {
-               InviteListViewModel viewModel = new InviteListViewModel();
-               viewModel.instance = viewModel.InviteUsers.FirstOrDefault(x => x.InviteId == id);
-               return View(viewModel);
-           }*/
 
         public ActionResult Delete(int id)
         {
@@ -40,10 +34,7 @@ namespace MessangingApp1.Controllers
                 db.inviteUsers.Remove(res.First());
                 db.SaveChanges();
             }
-
-
             return RedirectToAction("Index");
-
         }
 
         [HttpPost]
