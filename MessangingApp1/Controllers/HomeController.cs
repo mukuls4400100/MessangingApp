@@ -50,7 +50,7 @@ namespace MessangingApp1.Controllers
                 tr.trendingUser = (IEnumerable<Trending>)list1;
 
                 var list2 = (from p in db.channels
-                             join f in db.posts
+                             join f in db.inviteUsers
                              on p.ChannelId equals f.ChannelId into trend
                              from x in trend.DefaultIfEmpty()
                              group x by new { p.ChannelName } into r
@@ -62,7 +62,14 @@ namespace MessangingApp1.Controllers
 
                 tr.trendingChannels = (IEnumerable<Trending>)list2;
 
-                var list3 = (from p in db.tags
+                List<Tag> tags = new List<Tag>();
+                foreach (var i in tr.trendingChannels)
+                {
+                    var c = db.channels.Where(item => item.ChannelName == i.Name).First();
+                    tags.AddRange(db.tags.Where(item => item.ChannelId == c.ChannelId).ToList());
+                }
+
+                var list3 = (from p in tags
                              group p by new { p.TagName } into r
                              select new Trending
                              {
@@ -80,6 +87,11 @@ namespace MessangingApp1.Controllers
         [HttpPost]
         public ActionResult Index(TrendingListViewModel tr)
         {
+            if (tr.StartDate >= tr.EndDate)
+            {
+                ViewBag.error = "Invalid Date Range";
+               
+            }
             DataContext db = new DataContext();
             var list = (from p in db.users
                         join f in db.posts
@@ -117,7 +129,7 @@ namespace MessangingApp1.Controllers
             tr.trendingUser = (IEnumerable<Trending>)list1;
 
             var list2 = (from p in db.channels
-                         join f in db.posts
+                         join f in db.inviteUsers
                          on p.ChannelId equals f.ChannelId into trend
                          from x in trend.DefaultIfEmpty()
                          where tr.StartDate <= p.CreatedAt && p.CreatedAt <= tr.EndDate
@@ -130,7 +142,14 @@ namespace MessangingApp1.Controllers
 
             tr.trendingChannels = (IEnumerable<Trending>)list2;
 
-            var list3 = (from p in db.tags
+            List<Tag> tags = new List<Tag>();
+            foreach (var i in tr.trendingChannels)
+            {
+                var c = db.channels.Where(item => item.ChannelName == i.Name).First();
+                tags.AddRange(db.tags.Where(item => item.ChannelId == c.ChannelId).ToList());
+            }
+
+            var list3 = (from p in tags
                          group p by new { p.TagName } into r
                          select new Trending
                          {

@@ -14,7 +14,7 @@
             @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-inline pt-3" }))
             {
                 <span class="badge badge-danger">@ViewBag.ErrorMessage</span>
-
+                <span class="badge badge-danger">@ViewBag.error</span>
                 @Html.AntiForgeryToken()
                 @Html.LabelFor(m => m.StartDate)
                 @Html.TextBoxFor(m => m.StartDate, "", new { @type = "date", @class = "form-control", @placeholder = "Start Date" })
@@ -38,13 +38,20 @@
                 <tr class="bg bg-primary text-muted"><td>Top Trending Regions</td></tr>
                 @if (@Model != null)
                 {
-                    foreach (var i in Model.trendingRegions)
+                    if (Model.trendingRegions.Count() == 0)
                     {
+                        <tr class=" text-muted"><td>No Trending Regions!!!!!!</td></tr>
+                    }
+                    else
+                    {
+                        foreach (var i in Model.trendingRegions)
+                        {
                         <tr>
                             <td>
                                 @i.Name
                             </td>
                         </tr>
+                        }
                     }
                 }
                 else
@@ -58,17 +65,24 @@
                 <tr class="bg bg-primary text-muted"><td>Top Trending Channels</td></tr>
                 @if (@Model != null)
                 {
-                    foreach (var i in Model.trendingChannels)
+                    if (Model.trendingRegions.Count() == 0)
                     {
-                        <tr>
-                            <td>
-                                @i.Name
-                            </td>
-                        </tr>
+                        <tr class=" text-muted"><td>No Trending Channels!!!!!!</td></tr>
                     }
-                }
-                else
-                {
+                    else
+                    {
+                        foreach (var i in Model.trendingChannels)
+                        {
+                            <tr>
+                                <td>
+                                    @i.Name
+                                </td>
+                            </tr>
+                        }
+                    }
+                 }
+               else
+               {
                     <tr class=" text-muted"><td>No Trending Channels!!!!!!</td></tr>
                 }
             </Table>
@@ -78,17 +92,23 @@
                 <tr class="bg bg-primary text-muted"><td>Top Trending Tags</td></tr>
                 @if (@Model != null)
                 {
-                    foreach (var i in Model.trendingTags)
+                    if (Model.trendingRegions.Count() == 0)
                     {
-                        <tr>
-                            <td>
-                                @i.Name
-                            </td>
-                        </tr>
+                        <tr class=" text-muted"><td>No Trending Tags!!!!!!</td></tr>
                     }
-                }
-                else
-                {
+                    else
+                    {
+                        foreach (var i in Model.trendingTags)
+                        {
+                            <tr>
+                                <td>
+                                    @i.Name
+                                </td>
+                            </tr>
+                                }
+                            } }
+                        else
+                        {
                     <tr class="text-muted"><td>No Trending Tags!!!!!!</td></tr>
                 }
             </Table>
@@ -98,17 +118,24 @@
                 <tr class="bg bg-primary text-muted"><td>Top Trending Users</td></tr>
                 @if (@Model != null)
                 {
-                    foreach (var i in Model.trendingUser)
+                    if (Model.trendingRegions.Count() == 0)
                     {
-                        <tr>
-                            <td>
-                                @i.Name
-                            </td>
-                        </tr>
+                        <tr class=" text-muted"><td>No Trending Users!!!!!!</td></tr>
                     }
-                }
-                else
-                {
+                    else
+                    {
+                        foreach (var i in Model.trendingUser)
+                        {
+                            <tr>
+                                <td>
+                                    @i.Name
+                                </td>
+                            </tr>
+                                    }
+                                }
+                            }
+                            else
+                            {
                     <tr class=" text-muted"><td>No Trending Users!!!!!!</td></tr>
                 }
             </Table>
@@ -116,6 +143,6 @@
     </div>
 }
 else
-{
-    <center><h1>Welcome to Messanging App</h1></center>
+                {
+            <center><h1>Welcome to Messanging App</h1></center>
 }
