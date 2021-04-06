@@ -15,5 +15,8 @@ namespace MessangingApp1.Models
         [MinLength(3)]
         public string InviteUserName { get; set; }
         public int ChannelId { get; set; }
+
+        [NotMapped]
+        public IEnumerable<Tag> tags { get; set; }
     }
 }

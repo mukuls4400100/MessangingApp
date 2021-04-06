@@ -25,6 +25,8 @@ namespace MessangingApp1.Models
 
         public int CountPosts { get; set; }
 
+        public DateTime CreatedAt { get; set; }
+
         [NotMapped]
         public IEnumerable<Tag> tags { get; set; }
     }

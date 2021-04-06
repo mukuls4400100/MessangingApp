@@ -2,86 +2,120 @@
 @{
     ViewBag.Title = "Dashboard";
 }
-<center><h1>@ViewBag.Title</h1></center><br><br>
-<div class="row">
-    <div class="col-lg-3">
-        <Table class="table table-bordered">
-            <tr class="bg bg-primary text-muted"><td>Top Trending Regions</td></tr>
-            @if (@Model != null)
+
+@if (Session["userid"] != null)
+{
+    <center><h1>@ViewBag.Title</h1></center>
+    <br>
+    <br>
+
+    <div class="card">
+        <div class="card-body">
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-inline pt-3" }))
             {
-                foreach (var i in Model.trendingRegions)
+                <span class="badge badge-danger">@ViewBag.ErrorMessage</span>
+
+                @Html.AntiForgeryToken()
+                @Html.LabelFor(m => m.StartDate)
+                @Html.TextBoxFor(m => m.StartDate, "", new { @type = "date", @class = "form-control", @placeholder = "Start Date" })
+                @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "badge badge-primary" })
+
+                @Html.LabelFor(m => m.EndDate)
+                @Html.TextBoxFor(m => m.EndDate, new { @type = "date", @class = "form-control", @placeholder = "End Date" })
+                @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "badge badge-primary" })
+
+
+                <input type="submit" name="submit" class="btn btn-primary" value="Search Trending" />
+
+            }
+        </div>
+     </div><br><br>
+
+
+    <div class="row">
+        <div class="col-lg-3">
+            <Table class="table table-bordered">
+                <tr class="bg bg-primary text-muted"><td>Top Trending Regions</td></tr>
+                @if (@Model != null)
                 {
-                    <tr>
-                        <td>
-                            @i.Name
-                        </td>
-                    </tr>
+                    foreach (var i in Model.trendingRegions)
+                    {
+                        <tr>
+                            <td>
+                                @i.Name
+                            </td>
+                        </tr>
+                    }
                 }
-            }
-            else
-            {
-                <tr class="bg bg-primary text-muted"><td>No Trending Regions!!!!!!</td></tr>
-            }
-        </Table>
-    </div>
-    <div class="col-lg-3">
-        <Table class="table table-bordered">
-            <tr class="bg bg-primary text-muted"><td>Top Trending Channels</td></tr>
-            @if (@Model != null)
-            {
-                foreach (var i in Model.trendingChannels)
+                else
                 {
-                    <tr>
-                        <td>
-                            @i.Name
-                        </td>
-                    </tr>
+                    <tr class=" text-muted"><td>No Trending Regions!!!!!!</td></tr>
                 }
-            }
-            else
-            {
-                <tr class="bg bg-primary text-muted"><td>No Trending Channels!!!!!!</td></tr>
-            }
-        </Table>
-    </div>
-    <div class="col-lg-3">
-        <Table class="table table-bordered">
-            <tr class="bg bg-primary text-muted"><td>Top Trending Tags</td></tr>
-            @if (@Model != null)
-            {
-                foreach (var i in Model.trendingTags)
+            </Table>
+        </div>
+        <div class="col-lg-3">
+            <Table class="table table-bordered">
+                <tr class="bg bg-primary text-muted"><td>Top Trending Channels</td></tr>
+                @if (@Model != null)
                 {
-                    <tr>
-                        <td>
-                            @i.Name
-                        </td>
-                    </tr>
+                    foreach (var i in Model.trendingChannels)
+                    {
+                        <tr>
+                            <td>
+                                @i.Name
+                            </td>
+                        </tr>
+                    }
                 }
-            }
-            else
-            {
-                <tr class="bg bg-primary text-muted"><td>No Trending Tags!!!!!!</td></tr>
-            }
-        </Table>
-    </div>
-    <div class="col-lg-3">
-        <Table class="table table-bordered ">
-            <tr class="bg bg-primary text-muted"><td>Top Trending Users</td></tr>
-            @if (@Model != null)
-            {
-                foreach (var i in Model.trendingUser)
+                else
                 {
-                    <tr>
-                        <td>
-                            @i.Name
-                        </td>
-                    </tr>
+                    <tr class=" text-muted"><td>No Trending Channels!!!!!!</td></tr>
                 }
-            }
-            else
-            {
-                <tr class="bg bg-primary text-muted"><td>No Trending Users!!!!!!</td></tr>
-            }
-        </Table>
+            </Table>
+        </div>
+        <div class="col-lg-3">
+            <Table class="table table-bordered">
+                <tr class="bg bg-primary text-muted"><td>Top Trending Tags</td></tr>
+                @if (@Model != null)
+                {
+                    foreach (var i in Model.trendingTags)
+                    {
+                        <tr>
+                            <td>
+                                @i.Name
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr class="text-muted"><td>No Trending Tags!!!!!!</td></tr>
+                }
+            </Table>
+        </div>
+        <div class="col-lg-3">
+            <Table class="table table-bordered ">
+                <tr class="bg bg-primary text-muted"><td>Top Trending Users</td></tr>
+                @if (@Model != null)
+                {
+                    foreach (var i in Model.trendingUser)
+                    {
+                        <tr>
+                            <td>
+                                @i.Name
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr class=" text-muted"><td>No Trending Users!!!!!!</td></tr>
+                }
+            </Table>
+        </div>
     </div>
-</div>
+}
+else
+{
+    <center><h1>Welcome to Messanging App</h1></center>
+}

@@ -1,23 +1,20 @@
 ﻿@model MessangingApp1.Models.Post
 
-@{
-    ViewBag.Title = "Index";
-}
+@{ ViewBag.Title = "Index"; }
+
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    <h2>Create Post</h2>
-
-    <h3 class="badge badge-danger">@ViewBag.ErrorMessage</h3>
     <div class="form-horizontal">
-
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <h3 class="badge badge-danger">@ViewBag.ErrorMessage</h3>
         <div class="form-group">
+            <h2>Create Post</h2>
             @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Post Title..." } })
                 @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -25,7 +22,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Content, new { @class = "form-control" })
+                @Html.TextAreaFor(model => model.Content, new { @class = "form-control", @placeholder = "Enter Post Content...." })
                 @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -34,9 +31,10 @@
                 <input type="submit" value="Create Post" class="btn btn-danger btn-block" />
             </div>
         </div>
-    </div>
-}
+    </div>}
 
 <div>
-    @Html.ActionLink("Back to List", "../Home/InviteChannels")
+    @Html.ActionLink("Back to List", "../Home/InviteChannels", null, new { @class = "btn btn-primary" })
 </div>
+
+

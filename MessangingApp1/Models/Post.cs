@@ -12,7 +12,6 @@ namespace MessangingApp1.Models
         [Key]
         public int PostId { get; set; }
         public string Title { get; set; }
-
         public string Content { get; set; }
         public int ChannelId { get; set; }
         public string UserName { get; set; }

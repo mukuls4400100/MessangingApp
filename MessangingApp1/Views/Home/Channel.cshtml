@@ -2,62 +2,69 @@
 @{
     ViewBag.Title = "Contact";
 }
-<h1>@ViewBag.message</h1>
-@if (Model != null)
-{
-    <table class="table table-bordered">
-        <tr style="font-size:150%;">
-            <th>
-                Channel Name
-            </th>
-            <th>
-                Channel Description
-            </th>
-            <th>
-                Number of Posts
-            </th>
-            <th>
-               Tags
-            </th>
-            <th>
-                View  Posts
-            </th>
-            <th>
-                Create Posts
-            </th>
-        </tr>
-        @foreach (var item in Model.OrderByDescending(m=> m.CountPosts))
-        {
-            <tr>
-                <td style="font-size:150%;color:red;">
-                    @item.ChannelName
-                </td>
-                <td style="font-size:150%;color:green;">
-                    @item.Description
-                </td>
-                <td style="font-size:150%;color:green;">
-                    @item.CountPosts
-                </td>
-                <td>
-                    <select class="form-control" name="Channel Tags">
-                        @*<option selected disabled>Channel Tags</option>*@
-                        @foreach (var i in item.tags)
-                        {
-                            <option>@i.TagName</option>
-                        }
-                    </select>
-                        
-                    
-                </td>
-                <td>
-                    @Html.ActionLink("View Posts", "ViewPosts", "Post", new { id = item.ChannelId }, new { @class = "btn btn-success btn-block" })
-                </td>
-                <td>
-                    @Html.ActionLink("Create Posts", "Index", "Post", new { id = item.ChannelId }, new { @class = "btn btn-danger btn-block" })
-                </td>
-            </tr>
-        }
 
-    </table>
-}
-@Html.ActionLink("Create Channel", "Index", "Channel", null, new { @class = "btn btn-primary btn-block" })
+<div class="container-fluid">
+    <h1>@ViewBag.message</h1><br>
+    @Html.ActionLink("Create Channel", "Index", "Channel", null, new { @class = "btn btn-primary" })
+
+
+    @if (Model != null)
+    {
+        <table class="table table-bordered" style="margin-top:20px;">
+
+            <tr style="font-size:150%;">
+
+                <th style="width: 10%">
+                    Channel Name
+                </th>
+                <th>
+                    Channel Description
+                </th>
+                <th>
+                    Number of Posts
+                </th>
+                <th style="width: 15%">
+                    Tags
+                </th>
+                <th>
+                    View  Posts
+                </th>
+                <th>
+                    Create Posts
+                </th>
+            </tr>
+            @foreach (var item in Model.OrderByDescending(m => m.CountPosts))
+            {
+                <tr>
+                    <td style="font-size:150%;color:red;">
+                        @item.ChannelName
+                    </td>
+                    <td style="font-size:150%;color:green;">
+                        @item.Description
+                    </td>
+                    <td style="font-size:150%;color:green;">
+                        @item.CountPosts
+                    </td>
+                    <td>
+                        <select class="form-control" name="Channel Tags">
+                            @*<option selected disabled>Channel Tags</option>*@
+                            @foreach (var i in item.tags)
+                            {
+                                <option>@i.TagName</option>
+                            }
+                        </select>
+
+
+                    </td>
+                    <td>
+                        @Html.ActionLink("View Posts", "ViewPosts", "Post", new { id = item.ChannelId }, new { @class = "btn btn-success btn-block" })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Create Posts", "Index", "Post", new { id = item.ChannelId }, new { @class = "btn btn-danger btn-block" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+</div>

@@ -1,33 +1,27 @@
 ﻿@model MessangingApp1.ViewModels.SearchViewModel
 
-@{
-    ViewBag.Title = "ViewPosts";
-}
+@{ ViewBag.Title = "ViewPosts"; }
 
 
 
-@*<h2>@ViewBag.message</h2>*@
-@using (Html.BeginForm("SearchPosts", "Post", FormMethod.Post))
+@using (Html.BeginForm("ViewPosts", "Post", FormMethod.Post, new { @id = "myForm", @class = "form-inline pt-3" }))
 {
-
     @Html.AntiForgeryToken()
-    <div class="form-group">
-        @Html.LabelFor(m => m.SearchQuery)
-        @Html.TextBoxFor(m => m.SearchQuery, "", new { @class = "form-control", @placeholder = "Enter Username" })
-        @Html.ValidationMessageFor(m => m.SearchQuery, "", new { @class = "badge badge-danger" })
-    </div>
-    <div class="form-group">
-        <input type="submit" class="btn btn-success btn-block" value="Search" />
-    </div>
+
+<div class="form-group" style="padding-top:20px;">
+    @Html.LabelFor(m => m.SearchQuery, new { @class = "sr-only" })
+    @Html.TextBoxFor(m => m.SearchQuery, "", new { @class = "form-control mb-2 mr-sm-2", @id = "myTextArea", @placeholder = "Search Posts...." })
+    @Html.ValidationMessageFor(m => m.SearchQuery, "", new { @class = "badge badge-danger" })
+    <input type="submit" class="btn btn-primary mb-2" value="Search....." />
+    @Html.ActionLink("Create Posts", "Index", "Post", new { id = Session["channelid"] }, new { @class = "btn btn-danger" })
+</div>
 }
 
-@Html.ActionLink("Create Posts", "Index", "Post", new { id = Session["channelid"] }, new { @class = "btn btn-danger" })
-
+<Center><h2>ViewPosts</h2></Center>
 
 
 @if (Model.posts.Count() != 0)
 {
-    <h2>ViewPosts</h2>
     <table class="table table-bordered">
         <tr style="font-size:150%;">
             <th>
@@ -37,15 +31,14 @@
                 @Html.DisplayNameFor(model => model.posts.First().Content)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.posts.First().UserName)
+                Post Created By
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.posts.First().CreatedAt)
             </th>
             <th>
-                Create Message
+                Post Message
             </th>
-
         </tr>
 
         @foreach (var item in Model.posts)
@@ -64,15 +57,16 @@
                     @Html.DisplayFor(modelItem => item.CreatedAt)
                 </td>
                 <td>
-                    @Html.ActionLink("Create Message", "CreateMessage", new { id = item.PostId }, new { @class = "btn btn-success btn-block btn-sm" })
+                    @Html.ActionLink("Post Message", "CreateMessage", new { id = item.PostId }, new { @class = "btn btn-success btn-block" })
                 </td>
             </tr>
         }
 
+    </table>}
 
-    </table>
-}
 else
 {
-    <h1>No Posts</h1>
+    <center><h1>No Posts are there!!!</h1></center>
 }
+
+

@@ -44,6 +44,24 @@ namespace MessangingApp1.Controllers
             return View(reference);
         }
 
+        [HttpPost]
+        public ActionResult ViewPosts(SearchViewModel model)
+        {
+            DataContext db = new DataContext();
+            SearchViewModel reference = new SearchViewModel();
+            reference.SearchQuery = model.SearchQuery;
+
+            if (String.IsNullOrEmpty(model.SearchQuery))
+            {
+                reference.posts = (List<Post>)db.posts.Where(item => item.ChannelId == Convert.ToInt32(Session["channelId"])).ToList();
+            }
+            else
+            {
+                reference.posts = (List<Post>)db.posts.Where(item => item.ChannelId == Convert.ToInt32(Session["channelId"]) && item.Content.Contains(model.SearchQuery)).ToList();
+            }
+            return View(reference);
+        }
+
 
         public ActionResult CreateMessage(int id)
         {
@@ -66,6 +84,7 @@ namespace MessangingApp1.Controllers
         public ActionResult CreateMessage(Post pr)
         {
             DataContext db = new DataContext();
+
             if (pr.enterReply.ReplyContent == null)
             {
                 TempData["emptymessage"] = "Empty Message.....";
@@ -73,38 +92,14 @@ namespace MessangingApp1.Controllers
             }
             else
             {
-                PostReply newpost = new PostReply();
-                newpost.PostId = int.Parse(Request.Url.Segments.Last());
-                newpost.userId = Convert.ToInt32(Session["userid"]);
-                newpost.userName = Convert.ToString(Session["name"]);
-                newpost.DateCreated = DateTime.Now;
-                db.replies.Add(newpost);
+                pr.enterReply.PostId = int.Parse(Request.Url.Segments.Last());
+                pr.enterReply.userId = Convert.ToInt32(Session["userid"]);
+                pr.enterReply.userName = Convert.ToString(Session["name"]);
+                pr.enterReply.DateCreated = DateTime.Now;
+                db.replies.Add(pr.enterReply);
                 db.SaveChanges();
             }
             return RedirectToAction("CreateMessage", int.Parse(Request.Url.Segments.Last()));
-        }
-        // public ActionResult SearchPosts(int id)
-        // {
-        // return RedirectToAction("Index", id);
-        // }
-
-
-        [HttpPost]
-        public ActionResult SearchPosts(SearchViewModel model)
-        {
-            DataContext db = new DataContext();
-            ViewBag.message = Session["channelId"];
-            SearchViewModel reference = new SearchViewModel();
-            if (String.IsNullOrEmpty(model.SearchQuery))
-            {
-                reference.posts = (List<Post>)db.posts.Where(item => item.ChannelId == Convert.ToInt32(Session["channelId"])).ToList();
-            }
-            else
-            {
-                reference.posts = (List<Post>)db.posts.Where(item => item.ChannelId == Convert.ToInt32(Session["channelId"]) && item.Content.Contains(model.SearchQuery)).ToList();
-            }
-
-            return View(reference);
         }
     }
 }

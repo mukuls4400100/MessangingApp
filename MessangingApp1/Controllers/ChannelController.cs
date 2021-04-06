@@ -26,6 +26,7 @@ namespace MessangingApp.Controllers
                 if (res.Count() == 0)
                 {
                     c.UserId = Convert.ToInt32(Session["userid"]);
+                    c.CreatedAt = DateTime.Now;
                     db.channels.Add(c);
                     db.SaveChanges();
 

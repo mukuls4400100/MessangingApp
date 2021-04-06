@@ -26,6 +26,7 @@ namespace MessangingApp1.Controllers
                             Name = p.Region,
                             Count = x == null?0:1
                           }).GroupBy(o=>o.Name).Select(o=> new Trending
+
                           { 
                               Name = o.Key, Count = o.Sum(p=>p.Count)
                           }).OrderByDescending(c => c.Count).ToList().Take(5);
@@ -76,6 +77,71 @@ namespace MessangingApp1.Controllers
                 return View();
         }
 
+        [HttpPost]
+        public ActionResult Index(TrendingListViewModel tr)
+        {
+            DataContext db = new DataContext();
+            var list = (from p in db.users
+                        join f in db.posts
+                        on p.Username equals f.UserName into trend
+                        from x in trend.DefaultIfEmpty()
+                        where  tr.StartDate <= p.CreatedAt && p.CreatedAt <= tr.EndDate
+                        select new
+                        {
+                            Name = p.Region,
+                            Count = x == null ? 0 : 1
+                        }).GroupBy(o => o.Name).Select(o => new Trending
+
+                        {
+                            Name = o.Key,
+                            Count = o.Sum(p => p.Count)
+                        }).OrderByDescending(c => c.Count).ToList().Take(5);
+
+            tr.trendingRegions = (IEnumerable<Trending>)list;
+
+            var list1 = (from p in db.users
+                         join f in db.posts
+                         on p.Username equals f.UserName into trend
+                         from x in trend.DefaultIfEmpty()
+                         where tr.StartDate <= p.CreatedAt && p.CreatedAt <= tr.EndDate
+                         select new
+                         {
+                             Name = p.Username,
+                             Count = x == null ? 0 : 1
+                         }).GroupBy(o => o.Name).Select(o => new Trending
+                         {
+                             Name = o.Key,
+                             Count = o.Sum(p => p.Count)
+                         }).OrderByDescending(c => c.Count).ToList().Take(5);
+
+            tr.trendingUser = (IEnumerable<Trending>)list1;
+
+            var list2 = (from p in db.channels
+                         join f in db.posts
+                         on p.ChannelId equals f.ChannelId into trend
+                         from x in trend.DefaultIfEmpty()
+                         where tr.StartDate <= p.CreatedAt && p.CreatedAt <= tr.EndDate
+                         group x by new { p.ChannelName } into r
+                         select new Trending
+                         {
+                             Name = r.Key.ChannelName,
+                             Count = r.Count()
+                         }).OrderByDescending(c => c.Count).ToList().Take(5);
+
+            tr.trendingChannels = (IEnumerable<Trending>)list2;
+
+            var list3 = (from p in db.tags
+                         group p by new { p.TagName } into r
+                         select new Trending
+                         {
+                             Name = r.Key.TagName,
+                             Count = r.Count()
+                         }).OrderByDescending(c => c.Count).ToList().Take(5);
+
+            tr.trendingTags = (IEnumerable<Trending>)list3;
+
+            return View(tr);
+        }
         public ActionResult Login()
         {
             return View();
@@ -188,8 +254,11 @@ namespace MessangingApp1.Controllers
             List<Channel> channellist = new List<Channel>();
             foreach (var i in list)
             {
-                //channellist.Add(db.channels.Where(item => item.ChannelId == i.ChannelId).First());
+                List<Tag> channeltags = (List<Tag>)db.tags.Where(item => item.ChannelId == i.ChannelId).ToList();
+                i.tags = channeltags;
+
                 var res = db.channels.Where(item => item.ChannelId == i.ChannelId).First();
+                res.tags = i.tags;
                 var posts = db.posts.Where(item => item.ChannelId == res.ChannelId).ToList();
                 res.CountPosts = posts.Count();
                 db.SaveChanges();

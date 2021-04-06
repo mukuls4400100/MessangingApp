@@ -7,7 +7,7 @@
 {
     <table class="table table-bordered">
         <tr style="font-size:150%;">
-            <th>
+            <th style="width: 10%">
                 Channel Name
             </th>
             <th>
@@ -15,6 +15,9 @@
             </th>
             <th>
                 Number of Posts
+            </th>
+            <th style="width: 15%">
+                Tags
             </th>
             <th>
                 View  Posts
@@ -36,10 +39,21 @@
             @item.CountPosts
         </td>
         <td>
+            <select class="form-control" name="Channel Tags">
+                @*<option selected disabled>Channel Tags</option>*@
+                @foreach (var i in item.tags)
+                {
+                    <option>@i.TagName</option>
+                }
+            </select>
+
+
+        </td>
+        <td>
             @Html.ActionLink("View Posts", "ViewPosts", "Post", new { id = item.ChannelId }, new { @class = "btn btn-success btn-block" })
         </td>
         <td>
-            @Html.ActionLink("Post Message", "Index", "Post", new { id = item.ChannelId }, new { @class = "btn btn-danger btn-block" })
+            @Html.ActionLink("Create Post", "Index", "Post", new { id = item.ChannelId }, new { @class = "btn btn-danger btn-block" })
         </td>
     </tr>
         }

@@ -285,6 +285,10 @@
     <Compile Include="Migrations\20210404103239_messappdb.designer.cs">
       <DependentUpon>20210404103239_messappdb.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20210405065312_messaAppdb.cs" />
+    <Compile Include="Migrations\20210405065312_messaAppdb.designer.cs">
+      <DependentUpon>20210405065312_messaAppdb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataContextModelSnapshot.cs" />
     <Compile Include="Models\Channel.cs" />
     <Compile Include="Models\ChannelForm.cs" />
@@ -345,7 +349,6 @@
     <Content Include="Views\Post\Index.cshtml" />
     <Content Include="Views\Post\ViewPosts.cshtml" />
     <Content Include="Views\Post\CreateMessage.cshtml" />
-    <Content Include="Views\Post\SearchPosts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
